@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beijing Dossier · 21–28 December 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --paper:      #f7f2e7;
+    --paper-deep: #efe6d2;
+    --ink:        #211a14;
+    --ink-soft:   #5b5044;
+    --seal:       #a1281f;
+    --seal-dark:  #7c1d16;
+    --gold:       #af8a3f;
+    --gold-bright:#d4ab5c;
+    --jade:       #33503f;
+    --jade-deep:  #233a2d;
+    --rule:       #d8c9a3;
+    --card:       #fffdf7;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    background-image:
+      radial-gradient(circle at 50% 0%, rgba(175,138,63,0.07), transparent 60%);
+  }
+
+  /* subtle paper grain via layered noise-like gradients */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    opacity: 0.5;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.012) 0px, transparent 1px, transparent 2px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.012) 0px, transparent 1px, transparent 2px);
+  }
+
+  [contenteditable="true"] {
+    outline: none;
+    border-radius: 3px;
+    transition: background 0.15s;
+  }
+  [contenteditable="true"]:hover { background: rgba(175,138,63,0.10); cursor: text; }
+  [contenteditable="true"]:focus { background: rgba(175,138,63,0.16); box-shadow: 0 0 0 1px var(--gold); }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+  /* ============ EDIT MODE TOGGLE ============ */
+  .edit-toggle {
+    position: fixed; top: 18px; right: 18px; z-index: 500;
+    display: flex; align-items: center; gap: 9px;
+    background: var(--ink); color: var(--paper);
+    border: 1px solid rgba(212,171,92,0.4);
+    border-radius: 30px; padding: 9px 18px 9px 14px;
+    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.4px; cursor: pointer; user-select: none;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .edit-toggle:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .edit-toggle .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold-bright); transition: background 0.2s; }
+  .edit-toggle.on .dot { background: #5ec98a; box-shadow: 0 0 8px #5ec98a; }
+  .edit-toggle .lbl::after { content: 'View Mode'; }
+  .edit-toggle.on .lbl::after { content: 'Editing — click any text'; }
+  @media print { .edit-toggle, .print-btn { display: none !important; } }
+
+  .print-btn {
+    position: fixed; top: 18px; right: 200px; z-index: 500;
+    background: var(--card); color: var(--ink);
+    border: 1px solid var(--rule); border-radius: 30px;
+    padding: 9px 18px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+    cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  }
+  @media (max-width: 720px) {
+    .print-btn { right: 18px; top: 64px; }
+    .edit-toggle { top: 18px; }
+  }
+
+  /* ============ COVER ============ */
+  .cover {
+    position: relative;
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 80px 24px;
+    background: var(--ink);
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url('pic/day6-mutianyu.jpg');
+    background-size: cover; background-position: center 38%;
+    opacity: 0.30; filter: saturate(0.7) contrast(1.05);
+  }
+  .cover::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(33,26,20,0.35) 0%, rgba(33,26,20,0.55) 55%, var(--ink) 100%);
+  }
+  .cover-content { position: relative; z-index: 2; max-width: 640px; }
+  .cover-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold-bright); margin-bottom: 28px;
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+  }
+  .cover-eyebrow .ln { width: 36px; height: 1px; background: var(--gold-bright); opacity: 0.6; }
+  .cover h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(48px, 10vw, 92px);
+    color: #fbf6e8;
+    line-height: 0.98;
+    margin: 0;
+    letter-spacing: -1px;
+  }
+  .cover h1 .small { display: block; font-size: 0.32em; font-weight: 600; color: var(--gold-bright); letter-spacing: 6px; margin-bottom: 14px; font-family: 'Cormorant Garamond', serif; text-transform: uppercase; }
+  .cover-dates {
+    margin-top: 30px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600;
+    font-size: 22px; color: #e8dcc0;
+  }
+  .cover-meta {
+    margin-top: 38px; display: flex; gap: 28px; justify-content: center; flex-wrap: wrap;
+  }
+  .cover-meta .m { text-align: center; }
+  .cover-meta .m .v { font-family: 'Noto Serif SC', serif; font-size: 19px; color: #fbf6e8; font-weight: 700; }
+  .cover-meta .m .l { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-bright); margin-top: 4px; opacity: 0.85; }
+  .cover-scroll {
+    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+    z-index: 2; color: var(--gold-bright); font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0.75;
+  }
+  .cover-scroll .arrow { width: 1px; height: 28px; background: linear-gradient(180deg, var(--gold-bright), transparent); }
+
+  /* ============ MASTHEAD STRIP (travellers/flights) ============ */
+  .masthead {
+    background: var(--jade-deep); color: #f3ead4;
+    padding: 22px 0;
+  }
+  .masthead-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 0; }
+  .masthead-item {
+    padding: 8px 26px; text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.12);
+    flex: 1; min-width: 140px;
+  }
+  .masthead-item:last-child { border-right: none; }
+  .masthead-item .ml { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-bright); display:block; margin-bottom:5px; }
+  .masthead-item .mv { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 16px; color: #fdf8ea; }
+
+  /* ============ SECTION TITLES ============ */
+  .section-title {
+    margin: 64px 0 28px; text-align: center; position: relative;
+  }
+  .section-title .num { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--seal); text-transform: uppercase; }
+  .section-title h2 {
+    font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 30px;
+    margin: 6px 0 0; color: var(--ink);
+  }
+  .section-title .rule {
+    width: 64px; height: 2px; background: var(--gold); margin: 16px auto 0;
+    position: relative;
+  }
+  .section-title .rule::before, .section-title .rule::after {
+    content: ''; position: absolute; top: 50%; width: 4px; height: 4px; border-radius: 50%;
+    background: var(--gold); transform: translateY(-50%);
+  }
+  .section-title .rule::before { left: -10px; }
+  .section-title .rule::after { right: -10px; }
+
+  /* ============ DOSSIER NOTE (intro paragraph) ============ */
+  .dossier-note {
+    max-width: 680px; margin: 36px auto 0; text-align: center;
+    font-family: 'Cormorant Garamond', serif; font-size: 19px; font-style: italic;
+    color: var(--ink-soft); line-height: 1.7; padding: 0 20px;
+  }
+
+  /* ============ ADVISORY CARDS ============ */
+  .advisories { display: flex; flex-direction: column; gap: 10px; margin: 36px 0; }
+  .advisory {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: var(--card); border: 1px solid var(--rule); border-radius: 4px;
+    padding: 16px 20px; box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+  }
+  .advisory .stamp-mark {
+    font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 11px;
+    color: #fff; background: var(--seal); border-radius: 50%;
+    width: 34px; height: 34px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; line-height: 1.1;
+  }
+  .advisory.jade .stamp-mark { background: var(--jade); }
+  .advisory.gold .stamp-mark { background: var(--gold); color: var(--ink); }
+  .advisory p { margin: 0; font-size: 14px; color: var(--ink-soft); }
+  .advisory strong { color: var(--ink); }
+
+  /* ============ LOGISTICS GRID ============ */
+  .logistics-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule); margin: 36px 0;
+  }
+  .logistics-item { background: var(--card); padding: 18px 20px; }
+  .logistics-item .li-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--seal); display: block; margin-bottom: 7px;
+  }
+  .logistics-item p { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
+
+  /* ============ DAY ENTRY (ticket-stub concept) ============ */
+  .day-entry {
+    margin: 0 0 46px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    position: relative;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 2px 0 rgba(33,26,20,0.03), 0 14px 32px -18px rgba(33,26,20,0.18);
+  }
+
+  .day-stub {
+    display: flex; align-items: stretch;
+    background: var(--ink); color: var(--paper);
+    position: relative;
+  }
+  .day-stub-left {
+    flex-shrink: 0; width: 118px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 18px 8px;
+    border-right: 1px dashed rgba(247,242,231,0.25);
+    position: relative;
+  }
+  /* perforation notches */
+  .day-stub-left::before, .day-stub-left::after {
+    content: ''; position: absolute; width: 14px; height: 14px; border-radius: 50%;
+    background: var(--paper); right: -7px;
+  }
+  .day-stub-left::before { top: -7px; }
+  .day-stub-left::after { bottom: -7px; }
+  .day-num-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--gold-bright); text-transform: uppercase; }
+  .day-num {
+    font-family: 'Noto Serif SC', serif; font-weight: 900; font-size: 44px; color: #fbf6e8; line-height: 1;
+    margin: 4px 0;
+  }
+  .day-seal {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--seal); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 15px;
+    margin-top: 6px;
+    box-shadow: 0 0 0 2px rgba(247,242,231,0.15);
+  }
+  .day-stub-right { flex: 1; padding: 20px 26px; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+  .day-date {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1.5px;
+    color: var(--gold-bright); text-transform: uppercase;
+  }
+  .day-title {
+    font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 25px;
+    color: #fbf6e8; line-height: 1.2;
+  }
+  .day-title .tag {
+    display: inline-block; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px;
+    color: var(--ink); background: var(--gold-bright); border-radius: 20px;
+    padding: 2px 10px; margin-left: 10px; vertical-align: middle; letter-spacing: 0.3px;
+  }
+
+  .day-photo-band { width: 100%; height: 250px; overflow: hidden; position: relative; }
+  .day-photo-band img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(1.05); }
+  .day-photo-band::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(33,26,20,0.06) 100%);
+  }
+
+  .day-body { padding: 28px 28px 30px; }
+
+  /* Schedule list (replaces table — cleaner editing + reading) */
+  .schedule { display: flex; flex-direction: column; }
+  .sched-row {
+    display: grid; grid-template-columns: 64px 1fr; gap: 18px;
+    padding: 16px 0; border-top: 1px solid var(--rule);
+  }
+  .schedule .sched-row:first-child { border-top: none; }
+  .sched-time {
+    font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600;
+    color: var(--seal); padding-top: 2px;
+  }
+  .sched-main .activity {
+    font-family: 'Inter', sans-serif; font-weight: 700; font-size: 14.5px; color: var(--ink);
+    display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+  }
+  .sched-main .note { font-size: 13px; color: var(--ink-soft); margin-top: 5px; line-height: 1.6; }
+  .sched-meta {
+    display: flex; gap: 16px; margin-top: 9px; flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  }
+  .sched-meta .tag-transport { color: var(--jade); }
+  .sched-meta .tag-time { color: var(--ink-soft); }
+  .sched-meta .tag-cost { color: var(--seal); font-weight: 600; }
+  .sched-thumb {
+    width: 128px; height: 100px; border-radius: 4px; object-fit: cover; flex-shrink: 0;
+    border: 1px solid var(--rule);
+  }
+  .sched-with-thumb { display: flex; gap: 12px; align-items: flex-start; }
+
+  .hanfu-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #fbeee0; color: var(--seal-dark);
+    border: 1px solid #e3c39a; border-radius: 20px;
+    font-size: 10.5px; font-weight: 700; padding: 2px 10px; white-space: nowrap;
+  }
+
+  /* dining cards */
+  .dining-block { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--rule); }
+  .dining-block h4 {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--jade); margin: 0 0 12px;
+  }
+  .dining-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 12px; }
+  .dining-card {
+    border: 1px solid var(--rule); border-radius: 4px; padding: 13px 15px; background: var(--paper);
+  }
+  .dining-card .dn { font-weight: 700; font-size: 13.5px; color: var(--ink); }
+  .dining-card .dd { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; line-height: 1.5; }
+  .dining-card .dp { font-size: 12px; color: var(--seal); font-weight: 600; margin-top: 6px; }
+
+  /* note blocks */
+  .note-block {
+    margin-top: 16px; padding: 14px 18px; border-radius: 4px; font-size: 13px; line-height: 1.65;
+    border-left: 3px solid var(--gold);
+  }
+  .note-block.tip { background: #fbf6e3; color: #5a4a1f; border-left-color: var(--gold); }
+  .note-block.backup { background: #eef3f0; color: #2c4438; border-left-color: var(--jade); }
+  .note-block.costume { background: #fbeee0; color: #6b3420; border-left-color: var(--seal); }
+  .note-block strong { color: var(--ink); }
+
+  /* ============ COSTUME / BUDGET / TIPS SECTIONS ============ */
+  .ledger {
+    border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; margin: 24px 0;
+  }
+  .ledger-row {
+    display: grid; grid-template-columns: 1fr auto; gap: 16px;
+    padding: 14px 22px; border-bottom: 1px solid var(--rule);
+    font-size: 13.5px; align-items: baseline;
+    background: var(--card);
+  }
+  .ledger-row:last-child { border-bottom: none; }
+  .ledger-row.total { background: var(--ink); color: var(--paper); }
+  .ledger-row.total .lv { color: var(--gold-bright); font-weight: 700; }
+  .ledger-row .lk strong { color: var(--ink); }
+  .ledger-row.total .lk strong { color: var(--paper); }
+  .ledger-row .lv {
+    font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--seal);
+    white-space: nowrap; text-align: right;
+  }
+  .ledger-foot { font-size: 11.5px; color: var(--ink-soft); padding: 12px 22px; background: var(--paper-deep); font-style: italic; font-family: 'Cormorant Garamond', serif; }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 14px; margin: 24px 0; }
+  .grid-card {
+    border: 1px solid var(--rule); border-radius: 4px; padding: 16px 18px; background: var(--card);
+  }
+  .grid-card .gc-label { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--seal); display:block; margin-bottom: 7px; }
+  .grid-card p { margin: 0; font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+  .grid-card strong { color: var(--ink); }
+
+  /* ============ FOOTER / CLOSING SEAL ============ */
+  .closing {
+    text-align: center; padding: 70px 24px 60px; background: var(--ink); color: var(--paper);
+    margin-top: 70px;
+  }
+  .closing-seal {
+    width: 76px; height: 76px; border-radius: 50%; background: var(--seal); margin: 0 auto 22px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 26px; color: #fff;
+    box-shadow: 0 0 0 3px rgba(247,242,231,0.12), 0 8px 24px rgba(161,40,31,0.4);
+  }
+  .closing h3 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; font-size: 22px; margin: 0 0 10px; color: #fbf6e8; }
+  .closing p { font-size: 12.5px; color: rgba(247,242,231,0.55); max-width: 480px; margin: 0 auto; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 640px) {
+    .day-stub { flex-direction: row; }
+    .day-stub-left { width: 84px; padding: 14px 4px; }
+    .day-num { font-size: 32px; }
+    .day-title { font-size: 20px; }
+    .day-body { padding: 20px 18px 24px; }
+    .sched-row { grid-template-columns: 1fr; gap: 6px; }
+    .sched-time { font-size: 12px; }
+    .sched-thumb { display: none; }
+    .cover h1 { font-size: 14vw; }
+    .masthead-item { min-width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12); }
+    .masthead-item:last-child { border-bottom: none; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .cover { min-height: auto; page-break-after: always; }
+    .day-entry { page-break-inside: avoid; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="edit-toggle" id="editToggle" onclick="toggleEdit()">
+  <span class="dot"></span><span class="lbl"></span>
+</div>
+<div class="print-btn" onclick="window.print()">⬇ Save as PDF</div>
+
+<!-- ============ COVER ============ -->
+<section class="cover">
+  <div class="cover-content">
+    <div class="cover-eyebrow"><span class="ln"></span><span contenteditable="true">Family Travel Dossier</span><span class="ln"></span></div>
+    <h1><span class="small" contenteditable="true">Winter in</span><span contenteditable="true">Beijing</span></h1>
+    <div class="cover-dates" contenteditable="true">21 — 28 December 2026</div>
+    <div class="cover-meta">
+      <div class="m"><div class="v" contenteditable="true">7 Nights</div><div class="l">Duration</div></div>
+      <div class="m"><div class="v" contenteditable="true">6 Travellers</div><div class="l">Party Size</div></div>
+      <div class="m"><div class="v" contenteditable="true">Novotel Peace</div><div class="l">Residence</div></div>
+    </div>
+  </div>
+  <div class="cover-scroll"><span>The Itinerary</span><span class="arrow"></span></div>
+</section>
+
+<!-- ============ MASTHEAD ============ -->
+<div class="masthead">
+  <div class="wrap masthead-row">
+    <div class="masthead-item"><span class="ml">Inbound</span><span class="mv" contenteditable="true">SQ800 · 01:10 → 07:15</span></div>
+    <div class="masthead-item"><span class="ml">Outbound</span><span class="mv" contenteditable="true">SQ807 · 16:35 → 22:50</span></div>
+    <div class="masthead-item"><span class="ml">Residence</span><span class="mv" contenteditable="true">Novotel Peace Beijing</span></div>
+    <div class="masthead-item"><span class="ml">District</span><span class="mv" contenteditable="true">Wangfujing, Dongcheng</span></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ INTRO ============ -->
+  <p class="dossier-note" contenteditable="true">Eight days through imperial courtyards, frozen lakes and neon-lit hutongs — built around a winter solstice ritual, a Christmas atop the old city, and enough warm dumplings to outlast the cold.</p>
+
+  <!-- ============ ADVISORIES ============ -->
+  <div class="advisories">
+    <div class="advisory">
+      <div class="stamp-mark">勿<br>忘</div>
+      <p contenteditable="true"><strong>Booking window —</strong> Forbidden City and Tiananmen tickets release exactly 7 days ahead and sell out fast in December. Book at midnight Beijing time on 17 Dec for Day 4. Every traveller's passport number is required at booking.</p>
+    </div>
+    <div class="advisory gold">
+      <div class="stamp-mark">冬<br>至</div>
+      <p contenteditable="true"><strong>Winter Solstice, 22 Dec —</strong> exact moment 04:49am Beijing time. Sunlight aligns with the spirit tablet inside the Hall of Prayer for Good Harvests around solar noon (≈11:55am–12:10pm) — the combined "through ticket," not basic admission, is required to reach it. Full details on Day 2.</p>
+    </div>
+    <div class="advisory jade">
+      <div class="stamp-mark">漢<br>服</div>
+      <p contenteditable="true"><strong>Hanfu &amp; Qipao rentals —</strong> costume photography is woven into Days 2, 4, 5 &amp; 7 — Qianmen, the Forbidden City East Gate, Summer Palace, and Nanluoguxiang. Look for the <span class="hanfu-chip">👘 rental</span> marker.</p>
+    </div>
+    <div class="advisory gold">
+      <div class="stamp-mark">冰<br>場</div>
+      <p contenteditable="true"><strong>Ice rink timing —</strong> Kunming Lake's natural rink usually opens early–mid January. If still closed by 25 Dec, Shichahai Rink (Line 6/8) is the standby, with a beautiful hutong backdrop.</p>
+    </div>
+  </div>
+
+  <!-- ============ LOGISTICS ============ -->
+  <div class="section-title">
+    <div class="num">— Preparations —</div>
+    <h2 contenteditable="true">Before You Go</h2>
+    <div class="rule"></div>
+  </div>
+  <div class="logistics-grid">
+    <div class="logistics-item"><span class="li-label">Payments</span><p contenteditable="true">WeChat Pay &amp; Alipay accept foreign Visa/Mastercard via "Tour Card" — set up both before flying. Carry ¥500 cash as backup.</p></div>
+    <div class="logistics-item"><span class="li-label">Apps</span><p contenteditable="true">WeChat, Alipay, DiDi, Amap/Gaode Maps, Universal Beijing Resort app. A VPN is needed for Google and Instagram.</p></div>
+    <div class="logistics-item"><span class="li-label">Weather</span><p contenteditable="true">−5°C to 3°C through December. Thermal layers, waterproof boots, gloves and hand warmers for all six. Wind chill at the Great Wall and Tiananmen can feel like −15°C.</p></div>
+    <div class="logistics-item"><span class="li-label">Tickets</span><p contenteditable="true">Forbidden City + Tiananmen and Temple of Heaven open exactly 7 days ahead. Universal Studios should be booked weeks out. All passports needed at booking.</p></div>
+    <div class="logistics-item"><span class="li-label">Transit</span><p contenteditable="true">Subway is fast and cheap (¥3–7/trip). DiDi XL or MPV suits the full party of six. The hotel concierge can arrange a full-day driver.</p></div>
+    <div class="logistics-item"><span class="li-label">Residence</span><p contenteditable="true">Novotel Peace Beijing, No. 3 Jinyu Hutong, Wangfujing. Six minutes' walk to Dengshikou Metro (Line 5); 0.8km from the Forbidden City's East Gate.</p></div>
+    <div class="logistics-item"><span class="li-label">Visas</span><p contenteditable="true">Singapore passport holders enjoy 144-hour visa-free transit — reconfirm the policy 60 days before travel.</p></div>
+    <div class="logistics-item"><span class="li-label">Emergency</span><p contenteditable="true">Police 110 · Ambulance 120 · Tourist Hotline 12301. Hotel concierge speaks English.</p></div>
+  </div>
+
+  <!-- ============ DAY BY DAY ============ -->
+  <div class="section-title">
+    <div class="num">— The Journey —</div>
+    <h2 contenteditable="true">Day by Day</h2>
+    <div class="rule"></div>
+  </div>
+
+  <!-- DAY 1 -->
+  <div class="day-entry">
+    <div class="day-stub">
+      <div class="day-stub-left">
+        <span class="day-num-label">Day</span>
+        <span class="day-num">01</span>
+        <div class="day-seal">壹</div>
+      </div>
+      <div class="day-stub-right">
+        <span class="day-date" contenteditable="true">Mon 21 Dec 2026</span>
+        <span class="day-title" contenteditable="true">Arrival · Hot Spring Bliss</span>
+      </div>
+    </div>
+    <div class="day-photo-band"><img src="pic/Shuiguo2.jpg" alt="Hot spring"></div>
+    <div class="day-body">
+      <div class="schedule">
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">07:15</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/sq.jpg" alt="">
+              <div>
+                <div class="activity" contenteditable="true">✈️ Arrive PEK Terminal 3</div>
+                <div class="note" contenteditable="true">Immigration &amp; baggage. Keep warm layers accessible — it's an overnight flight, so everyone will be tired.</div>
+              </div>
+            </div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true"> </span>
+              <span class="tag-time" contenteditable="true"> </span>
+              <span class="tag-cost" contenteditable="true"> </span>
+            </div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">08:30</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🚆 Airport Express → Hotel</div>
+            <div class="note" contenteditable="true">For 6 with luggage, a pre-booked DiDi XL/MPV is easier. Airport Express (¥25pp) to Dongzhimen, then Line 2/5 to Dengshikou (~55 min total). Direct DiDi runs ~45 min.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">DiDi MPV or Airport Express</span><span class="tag-time" contenteditable="true">45–55 min</span><span class="tag-cost" contenteditable="true">¥150–200 or ¥25pp</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">09:30</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/hotel.jpg" alt="">
+              <div>
+              <div class="activity" contenteditable="true">🏨 Novotel Peace Beijing — Check In</div>
+              <div class="note" contenteditable="true">Early check-in not guaranteed — store bags and freshen up in the lobby facilities if rooms aren't ready.</div>
+              <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk from Dengshikou</span><span class="tag-time" contenteditable="true">6 min</span><span class="tag-cost" contenteditable="true">Hotel</span></div>
+              </div></div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">11:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/Shuiguo1.jpg" alt="">
+              <div>
+                <div class="activity" contenteditable="true">♨️ Shuiguo Tangquan Hot Spring</div>
+                <div class="note" contenteditable="true">No. 1062, Huihe South Street, Gaobeidian, Chaoyang. Japanese-style spa with unlimited premium fruit, Häagen-Dazs &amp; Starbucks included. Hot pools (38–41°C), themed saunas, tatami rest areas. Open 07:00–02:00, a 12-hour pass. Book ahead via Klook.</div>
+              </div>
+            </div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">DiDi from hotel</span><span class="tag-time" contenteditable="true">25 min</span><span class="tag-cost" contenteditable="true">¥200–250pp</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">18:00</div>
+          <div class="sched-main">
+                            <div class="activity" contenteditable="true">🍜 Dinner in the spa, then return</div>
+                <div class="note" contenteditable="true">Food is available inside Shuiguo. Or head back and try Wangfujing Snack Street (5 min from hotel) — tanghulu, jianbing, baozi.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">DiDi back to hotel</span><span class="tag-time" contenteditable="true">25 min</span><span class="tag-cost" contenteditable="true">Incl. or ¥20–50</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">20:00</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🛏️ Early night — jet-lag recovery</div>
+            <div class="note" contenteditable="true">Rest well for the next day's adventures :)</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true"> </span>
+              <span class="tag-time" contenteditable="true"> </span>
+              <span class="tag-cost" contenteditable="true"> </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="note-block tip" contenteditable="true">💡 <strong>Tip —</strong> SQ800 departs at 01:10, so no one sleeps properly beforehand. Shuiguo is the ideal recovery: soak, eat unlimited fruit, nap on tatami, repeat. All ages welcome. Book before flying — it sells out on weekends.</div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="day-entry">
+    <div class="day-stub">
+      <div class="day-stub-left">
+        <span class="day-num-label">Day</span>
+        <span class="day-num">02</span>
+        <div class="day-seal">貳</div>
+      </div>
+      <div class="day-stub-right">
+        <span class="day-date" contenteditable="true">Tue 22 Dec 2026 · Winter Solstice 冬至</span>
+        <span class="day-title" contenteditable="true">Temple of Heaven · Solstice Light</span>
+      </div>
+    </div>
+    <div class="day-photo-band"><img src="pic/temple1.jpg" alt="Temple of Heaven"></div>
+    <div class="day-body">
+      <div class="schedule">
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">09:00</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🍳 Hotel Breakfast Buffet</div>
+            <div class="note" contenteditable="true">Eat well — today is the exact astronomical winter solstice (04:49am), the day this entire temple complex was built for.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">—</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">Hotel</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">10:15</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/temple1.jpg" alt="">
+              <div>
+                <div class="activity" contenteditable="true">🏯 Temple of Heaven — East Gate Entry</div>
+                <div class="note" contenteditable="true">Off-season hours 08:00–17:00. Subway Line 5 to Tiantan Dongmen, Exit A. Buy the combined "through ticket" — without it, the Circular Mound Altar and Hall of Prayer are inaccessible.</div>
+              </div>
+            </div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Subway Line 5 → Tiantan Dongmen</span><span class="tag-time" contenteditable="true">~20 min</span><span class="tag-cost" contenteditable="true">¥34pp combined</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">11:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/temple3.jpg" alt="">
+              <div>
+                <div class="activity" contenteditable="true">☀️ Circular Mound Altar — Be Here by 11:30</div>
+                <div class="note" contenteditable="true">The three-tier marble altar where Ming &amp; Qing emperors performed the Winter Solstice Heaven Sacrifice. Stand on the central "Heavenly Heart Stone" — a whisper echoes back amplified. Then move to the Hall of Prayer, whose memorial tablet to Haotian Shangdi catches direct sunlight at solar noon, a deliberate 1420 alignment.</div>
+                <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk within park</span><span class="tag-time" contenteditable="true">10 min</span><span class="tag-cost" contenteditable="true">Included</span></div>
+              </div>
+            </div>  
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">12:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/temple2.jpg" alt="">
+              <div>
+                <div class="activity" contenteditable="true">🌞 Solar Noon — Light Crosses the Tablet</div>
+                <div class="note" contenteditable="true">Solar noon in late December falls ~11:55am–12:10pm clock time. Stand inside the Hall of Prayer and watch sunlight align with the spirit tablet — the same moment the emperor's ritual was timed around for centuries. The Echo Wall nearby is a kid-favourite too.</div>
+                <div class="sched-meta"><span class="tag-transport" contenteditable="true">—</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">Included</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">13:00</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🥟 Dongzhi Festival Lunch — Dumplings</div>
+            <div class="note" contenteditable="true">Northern tradition holds that eating jiaozi on Dongzhi protects ears from winter frostbite — the dumpling shape mimics an ear. Order jiaozi for the boys; try lamb hotpot or ginger dishes too, the day's "warming" foods.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk / Taxi</span><span class="tag-time" contenteditable="true">10 min</span><span class="tag-cost" contenteditable="true">¥50–80pp</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">14:30</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/temple4.jpg" alt="">
+              <div>
+                <div class="activity" contenteditable="true">🏮 Qianmen Street &amp; Dashilar Hutong <span class="hanfu-chip">👘 Rentals Here</span></div>
+                <div class="note" contenteditable="true">Restored pedestrian street with traditional shopfronts. Several Hanfu rental shops along Dashilar — rent Qing or Ming dynasty outfits and roam for photos. ~¥100–200/hr, styling and hair accessories included.</div>
+                <div class="sched-meta"><span class="tag-transport" contenteditable="true">Taxi / DiDi</span><span class="tag-time" contenteditable="true">~15 min</span><span class="tag-cost" contenteditable="true">¥25 + ¥100–200 costume</span></div>
+              </div>
+            </div>
+            </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">17:30</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🍲 Dongzhi Dinner — Lamb Hotpot</div>
+            <div class="note" contenteditable="true">Dong Lai Shun (东来顺) — Beijing's most famous mutton hotpot house, the quintessential Dongzhi "warming" dinner.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Taxi / DiDi</span><span class="tag-time" contenteditable="true">15 min</span><span class="tag-cost" contenteditable="true">¥80–130pp</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">19:30</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/wangfujing.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🛒 Evening Wangfujing Street</div>
+            <div class="note" contenteditable="true">Lit up beautifully in December — 5 minutes from the hotel. Buy snacks and bottled drinks for USB tomorrow.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk from hotel</span><span class="tag-time" contenteditable="true">5 min</span><span class="tag-cost" contenteditable="true">Free</span></div>
+          </div></div></div>
+        </div>
+      </div>
+      <div class="dining-block">
+        <h4>Dining</h4>
+        <div class="dining-cards">
+          <div class="dining-card"><div class="dn" contenteditable="true">Shun Yi Fu Dumpling Restaurant</div><div class="dd" contenteditable="true">5/F APM Mall — a popular stop after Temple of Heaven, steamed &amp; fried jiaozi, casual and quick.</div><div class="dp" contenteditable="true">¥40–70pp</div></div>
+          <div class="dining-card"><div class="dn" contenteditable="true">Dong Lai Shun 东来顺</div><div class="dd" contenteditable="true">Beijing's most famous mutton hotpot institution — the quintessential Dongzhi dinner.</div><div class="dp" contenteditable="true">¥80–130pp</div></div>
+        </div>
+      </div>
+      <div class="note-block tip" contenteditable="true">💡 <strong>How to actually see the phenomenon —</strong> buy the combined ticket; general admission alone won't reach the inner halls. Arrive at the Hall of Prayer by 11:45am for a good vantage point. The effect is a soft beam, not a laser show — frame it for the kids as "ancient astronomy in action." The Heavenly Heart Stone's echo works regardless of weather and reliably impresses.</div>
+      <div class="note-block backup" contenteditable="true">☁️ <strong>Overcast backup —</strong> the acoustic phenomena (Echo Wall, Triple Sound Stones, Heavenly Heart Stone) work in any weather and are the more kid-proof "wow" moment anyway.</div>
+    </div>
+  </div>
+
+  <!-- DAY 3 -->
+  <div class="day-entry">
+    <div class="day-stub">
+      <div class="day-stub-left">
+        <span class="day-num-label">Day</span>
+        <span class="day-num">03</span>
+        <div class="day-seal">叁</div>
+      </div>
+      <div class="day-stub-right">
+        <span class="day-date" contenteditable="true">Wed 23 Dec 2026</span>
+        <span class="day-title" contenteditable="true">Universal Studios Beijing<span class="tag">Midweek = Short Queues</span></span>
+      </div>
+    </div>
+    <div class="day-photo-band"><img src="pic/USB.jpg" alt="Universal Studios Beijing"></div>
+    <div class="day-body">
+      <div class="schedule">
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">09:00</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🍳 Hotel Breakfast (early today)</div>
+            <div class="note" contenteditable="true">Full breakfast before a full-day theme park. Pack light snacks and a water bottle.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">—</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">Hotel</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">09:45</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/USB2.jpg" alt="">
+              <div>
+                <div class="activity" contenteditable="true">🎢 Head to Universal Studios Beijing</div>
+                <div class="note" contenteditable="true">Subway Line 1 east, transfer at Sihui, Line 7 to Universal Resort Station, 5-min walk to gates. Park opens 10:00 — Wednesday means significantly shorter queues than weekends.</div>
+              </div>
+            </div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Line 1 → Line 7</span><span class="tag-time" contenteditable="true">~50 min</span><span class="tag-cost" contenteditable="true">¥5pp subway</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">10:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/USB5.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">⚡ Gates Open — Rush to Top Rides</div>
+            <div class="note" contenteditable="true">Head straight to Decepticoaster, Jurassic World Flyer and Harry Potter &amp; the Forbidden Journey,. Buy Express Pass Set 3 or 5 immediately — even midweek, popular sets sell out by noon.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Within park</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">¥598–750pp + Express ¥300–700</span></div>
+          </div></div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">12:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/USB4.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🐼 Kung Fu Panda Land + Minion Land</div>
+            <div class="note" contenteditable="true">World-first Kung Fu Panda land — the 12 &amp; 14yr-olds will love the Dragon Training Academy. Minion Land's Gru's Lab Escape is a crowd favourite for all ages.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">—</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">Included</span></div>
+          </div></div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">13:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/usb6.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🍔 Lunch inside the park</div>
+            <div class="note" contenteditable="true">Three Broomsticks (Harry Potter zone) for Butterbeer, pumpkin juice, fish &amp; chips — a must-try. Or The Dining Car near Jurassic World.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">—</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">¥80–150pp</span></div>
+          </div></div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">14:30</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/USB7.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🧙 Hogsmeade Village + Forbidden Journey</div>
+            <div class="note" contenteditable="true">Hogsmeade's streets, the Ollivander's wand show, interactive wand spots throughout. Drink Butterbeer at the outdoor cart for the full effect.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">—</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">Included</span></div>
+          </div></div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">16:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/USB8.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🎭 WaterWorld Stunt Show</div>
+            <div class="note" contenteditable="true">High-dive jet-ski action — one of the best in any Universal park. Back rows stay dry. Check the app for the day's schedule.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">—</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">Included</span></div>
+          </div></div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">18:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/USB9.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🌃 Night Zone — Transformers, Hollywood &amp; Shows</div>
+            <div class="note" contenteditable="true">Hollywood Walk of Fame zone is beautifully lit at night. Character meet-and-greets usually have no queue come evening.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">—</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">Included</span></div>
+          </div></div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">20:00</div>
+          <div class="sched-main">
+             <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/USB3.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🍽️ Dinner at CityWalk, then return</div>
+            <div class="note" contenteditable="true">CityWalk (free, no park ticket needed) has Jing-A Taproom, Korean BBQ and fusion options open until 23:00.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Line 7 → Line 1</span><span class="tag-time" contenteditable="true">~50 min</span><span class="tag-cost" contenteditable="true">¥80–150pp</span></div>
+          </div></div></div>
+        </div>
+      </div>
+      <div class="dining-block">
+        <h4>Dining</h4>
+        <div class="dining-cards">
+          <div class="dining-card"><div class="dn" contenteditable="true">Three Broomsticks (HP Land)</div><div class="dd" contenteditable="true">Butterbeer, pumpkin juice, fish &amp; chips, roast chicken in atmospheric Great Hall-style seating.</div><div class="dp" contenteditable="true">¥80–150pp</div></div>
+          <div class="dining-card"><div class="dn" contenteditable="true">Universal CityWalk</div><div class="dd" contenteditable="true">Jing-A craft beer taproom plus Asian &amp; Western options. No park ticket needed, open until 23:00.</div><div class="dp" contenteditable="true">¥80–150pp</div></div>
+        </div>
+      </div>
+      <div class="note-block tip" contenteditable="true">💡 <strong>Why Wednesday is smart —</strong> midweek December sees 30–50% shorter queues than weekends; you may not even need Express Pass for top rides. Book on Klook (easier for international cards than the official app). The 16/18/20yr-olds can ride everything — check height/age limits for the boys on specific thrill rides.</div>
+    </div>
+  </div>
+
+  <!-- DAY 4 -->
+  <div class="day-entry">
+    <div class="day-stub">
+      <div class="day-stub-left">
+        <span class="day-num-label">Day</span>
+        <span class="day-num">04</span>
+        <div class="day-seal">肆</div>
+      </div>
+      <div class="day-stub-right">
+        <span class="day-date" contenteditable="true">Thu 24 Dec 2026 · Christmas Eve</span>
+        <span class="day-title" contenteditable="true">Tiananmen Square &amp; Forbidden City</span>
+      </div>
+    </div>
+    <div class="day-photo-band"><img src="pic/forbiddencity1.jpg" alt="Forbidden City"></div>
+    <div class="day-body">
+      <div class="schedule">
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">08:00</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🌅 Optional: Flag Raising Ceremony</div>
+            <div class="note" contenteditable="true">Sunrise ~07:37 in December. Requires a separate reservation. Very cold — thermal layers essential. Skip in favour of a full hotel breakfast at 09:30 if preferred.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Line 1 → Tiananmen East</span><span class="tag-time" contenteditable="true">15 min</span><span class="tag-cost" contenteditable="true">Free, reservation needed</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">09:30</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/tiananmen1.jpg" alt="">
+              <div>
+                <div class="activity" contenteditable="true">🚩 Tiananmen Square 天安门广场</div>
+                <div class="note" contenteditable="true">440,000 sqm — the world's largest public square. National flagpole, Monument to the People's Heroes, Mao's portrait. Christmas Eve crowds are manageable since this isn't a Chinese holiday. Forbidden City tickets include Tiananmen access.</div>
+              </div>
+            </div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Line 1 → Tiananmen East</span><span class="tag-time" contenteditable="true">15 min</span><span class="tag-cost" contenteditable="true">Free with FC ticket</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">10:30</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/forbiddencity.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🏯 Forbidden City 故宫 <span class="hanfu-chip">👘 Rentals Near East Gate</span></div>
+            <div class="note" contenteditable="true">Nov–Mar hours 08:30–16:30. Enter via Meridian Gate, passport in hand. Highlights: Gate &amp; Hall of Supreme Harmony, Nine Dragon Screen, Imperial Garden, Treasure Gallery. Allow 3–4 hrs. Children under 6 free.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk from Tiananmen</span><span class="tag-time" contenteditable="true">5 min</span><span class="tag-cost" contenteditable="true">¥60pp adult</span></div>
+          </div></div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">13:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/forbiddencity2.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🌸 Jingshan Park 景山公园</div>
+            <div class="note" contenteditable="true">Directly north of the Forbidden City. Climb Jingshan Hill (10 min) for the single best panoramic view over the entire palace — the family photo of the trip.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk, FC North Gate</span><span class="tag-time" contenteditable="true">5 min</span><span class="tag-cost" contenteditable="true">¥2pp</span></div>
+          </div></div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">14:30</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/wangfujing.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🍜 Lunch — Wangfujing Snack Street</div>
+            <div class="note" contenteditable="true">Quick and casual, right by the hotel — jianbing, candied fruit skewers, hand-pulled noodles.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk toward hotel area</span><span class="tag-time" contenteditable="true">~10 min</span><span class="tag-cost" contenteditable="true">¥30–60pp</span></div>
+          </div></div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">15:30</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🛍️ Free Time / Rest at Hotel</div>
+            <div class="note" contenteditable="true">A relaxed window before the evening — freshen up, warm up, change for drinks.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">—</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">—</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">16:30</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/yin.jpg" alt="">
+              <div>
+                <div class="activity" contenteditable="true">🥂 Christmas Eve Drinks — YIN on 12</div>
+                <div class="note" contenteditable="true">12th floor, New World Beijing Hotel, 8 Qinian Street — beside Temple of Heaven with views toward Tiananmen and the Forbidden City, striking at sunset (~16:50). 1,100sqm Oriental-style terrace, indoor/outdoor seating. Opens nightly from 5pm — arriving on time secures the best seats. Smart casual. Kids welcome for mocktails.</div>
+              </div>
+            </div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">DiDi from Hotel/Wangfujing</span><span class="tag-time" contenteditable="true">15–20 min</span><span class="tag-cost" contenteditable="true">¥80–130pp</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">19:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/pekingduck.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🎄 Christmas Eve Dinner — Siji Minfu Peking Duck (Wangfujing)</div>
+            <div class="note" contenteditable="true">1/F Wancheng Huafu Hotel, 53 Donganmen Street — 5-min walk from the hotel. A beloved Beijing institution: crispy golden skin, tender meat, carved tableside, friendlier prices than Dadong. Reserve ahead or use the WeChat queue mini-program — waits run 30–90 min on a busy night. Add the honey-glazed prawns and duck rack soup.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">DiDi from YIN on 12, or walk</span><span class="tag-time" contenteditable="true">15 min</span><span class="tag-cost" contenteditable="true">¥120–160pp</span></div>
+          </div></div></div>
+        </div>
+      </div>
+      <div class="dining-block">
+        <h4>Dining &amp; Drinks</h4>
+        <div class="dining-cards">
+          <div class="dining-card"><div class="dn" contenteditable="true">Palace Corner Coffee 故宫角楼咖啡</div><div class="dd" contenteditable="true">Forbidden City-themed café at the iconic corner watchtower — Beijing's best coffee photo spot.</div><div class="dp" contenteditable="true">¥35–60pp</div></div>
+          <div class="dining-card"><div class="dn" contenteditable="true">YIN on 12</div><div class="dd" contenteditable="true">Rooftop terrace above New World Beijing Hotel — views toward the Forbidden City, Jingshan and Tiananmen, cocktails and mocktails, best at sunset.</div><div class="dp" contenteditable="true">¥80–130pp</div></div>
+          <div class="dining-card"><div class="dn" contenteditable="true">Siji Minfu Peking Duck (Wangfujing)</div><div class="dd" contenteditable="true">Beloved local favourite, tableside carving, honey-glazed prawns — five minutes from the hotel.</div><div class="dp" contenteditable="true">¥120–160pp</div></div>
+        </div>
+      </div>
+      <div class="note-block costume" contenteditable="true">👘 <strong>Costume rental near the Forbidden City East Gate —</strong> studios sit two minutes from the Donghua Gate. Imperial court robes and concubine dresses, with the palace's red walls as a backdrop. ¥100–250/hr including styling and hair, open 09:00–18:00.</div>
+      <div class="note-block tip" contenteditable="true">💡 <strong>Tip —</strong> YIN on 12 opens at 5pm sharp; arriving right on time secures the best terrace seats. Sunset is ~16:50 in late December, so by 17:00 the city lights up at dusk. Hard Rock Cafe Beijing closed permanently years ago and no mainland China location remains — YIN on 12's skyline view makes a fitting replacement.</div>
+      <div class="note-block backup" contenteditable="true">❄️ <strong>Backup —</strong> if too cold for Jingshan, head straight to the indoor Treasure Gallery and the National Palace Museum shop — Beijing's best souvenir store. If YIN on 12's terrace is too windy, ask for indoor lounge seating with the same skyline through floor-to-ceiling glass.</div>
+    </div>
+  </div>
+
+  <!-- DAY 5 -->
+  <div class="day-entry">
+    <div class="day-stub">
+      <div class="day-stub-left">
+        <span class="day-num-label">Day</span>
+        <span class="day-num">05</span>
+        <div class="day-seal">伍</div>
+      </div>
+      <div class="day-stub-right">
+        <span class="day-date" contenteditable="true">Fri 25 Dec 2026 · Christmas Day</span>
+        <span class="day-title" contenteditable="true">Summer Palace · Christmas Ice Skating</span>
+      </div>
+    </div>
+    <div class="day-photo-band"><img src="pic/day5.jpg" alt="Summer Palace"></div>
+    <div class="day-body">
+      <div class="schedule">
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">10:00</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🍳 Hotel Breakfast — Merry Christmas 🎄</div>
+            <div class="note" contenteditable="true">Many hotel buffets run a special Christmas spread — check with the front desk the night before.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">—</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">Hotel</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">11:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/day5.jpg">
+              <div>
+                <div class="activity" contenteditable="true">🏛️ Summer Palace 颐和园 <span class="hanfu-chip">👘 Rentals Here</span></div>
+                <div class="note" contenteditable="true">Enter via North Gate (Beigongmen). Nov–Mar hours 06:30–18:00. Highlights: the 728m Long Corridor, 17-Arch Bridge, Tower of Buddhist Incense, Marble Boat. Winter brings a frozen Kunming Lake framed by pavilions. Hanfu studios cluster near the East Gate.</div>
+              </div>
+            </div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Line 5 → Line 4 → Beigongmen</span><span class="tag-time" contenteditable="true">~45 min</span><span class="tag-cost" contenteditable="true">¥30pp + ¥30 buildings</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">13:30</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🍱 Lunch near Summer Palace North Gate</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk</span><span class="tag-time" contenteditable="true">5 min</span><span class="tag-cost" contenteditable="true">¥40–80pp</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">14:30</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/day5-1.jpg" alt="">
+              <div>
+                <div class="activity" contenteditable="true">⛸️ Christmas Day Ice Skating — Kunming Lake</div>
+                <div class="note" contenteditable="true">Beijing's largest natural outdoor rink at 700,000 sqm — skate with views of Longevity Hill and the 17-Arch Bridge. Sled chairs, ice bikes and regular skates available. ⚠️ The rink usually opens early–mid January, so it may not be ready — see the backup below.</div>
+              </div>
+            </div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk within grounds</span><span class="tag-time" contenteditable="true">10 min</span><span class="tag-cost" contenteditable="true">¥50pp + rental ¥10–30</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">17:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/day5-2.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🎁 Christmas Shopping — Wangfujing / APM / WF Central</div>
+            <div class="note" contenteditable="true">Wangfujing's malls go all-out for Christmas — Apple Store, Lego flagship, Uniqlo, lululemon, and festive photo backdrops in the atriums.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Line 4 → Line 5 → Dengshikou</span><span class="tag-time" contenteditable="true">~40 min</span><span class="tag-cost" contenteditable="true">¥6pp subway</span></div>
+          </div></div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">19:30</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/day5-3.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🍲 Christmas Night Dinner — Haidilao Hotpot</div>
+            <div class="note" contenteditable="true">Near Wangfujing — theatrical tableside service, free nail art while queueing, noodle-pulling show. Non-spicy broth available. Book ahead; always full on the 25th.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk / DiDi</span><span class="tag-time" contenteditable="true">10 min</span><span class="tag-cost" contenteditable="true">¥80–130pp</span></div>
+          </div></div></div>
+        </div>
+      </div>
+      <div class="dining-block">
+        <h4>Dining</h4>
+        <div class="dining-cards">
+          <div class="dining-card"><div class="dn" contenteditable="true">Haidilao Hotpot 海底捞</div><div class="dd" contenteditable="true">Theatrical service, noodle-pulling show, free manicure while waiting. Non-spicy broth for the boys.</div><div class="dp" contenteditable="true">¥80–130pp</div></div>
+          <div class="dining-card"><div class="dn" contenteditable="true">Summer Palace North Gate Eateries</div><div class="dd" contenteditable="true">Casual local lunch spots — noodles, dumplings, simple Beijing fare near Beigongmen.</div><div class="dp" contenteditable="true">¥40–80pp</div></div>
+        </div>
+      </div>
+      <div class="note-block costume" contenteditable="true">👘 <strong>Best costume backdrop of the trip —</strong> Summer Palace's East Gate studios pair the Long Corridor, Kunming Lake and pavilions for arguably the most photogenic Hanfu setting in Beijing. Book a session ahead, ¥150–300pp including costume, styling and a basic photo set.</div>
+      <div class="note-block tip" contenteditable="true">💡 <strong>Tip —</strong> Christmas Day isn't a Chinese public holiday, so the Palace will be busier with domestic visitors than usual — but nowhere near Universal Studios-level crowds. Bring skate socks. The Long Corridor shelters well from wind.</div>
+      <div class="note-block backup" contenteditable="true">⛸️ <strong>If the rink isn't open —</strong> Shichahai Skating Rink (Line 8) opens late December with a beautiful hutong backdrop. Wukesong Arena or the National Aquatics Center (Ice Cube) guarantee indoor ice.</div>
+    </div>
+  </div>
+
+  <!-- DAY 6 -->
+  <div class="day-entry">
+    <div class="day-stub">
+      <div class="day-stub-left">
+        <span class="day-num-label">Day</span>
+        <span class="day-num">06</span>
+        <div class="day-seal">陸</div>
+      </div>
+      <div class="day-stub-right">
+        <span class="day-date" contenteditable="true">Sat 26 Dec 2026</span>
+        <span class="day-title" contenteditable="true">Mutianyu Great Wall</span>
+      </div>
+    </div>
+    <div class="day-photo-band"><img src="pic/day6-mutianyu.jpg" alt="Great Wall"></div>
+    <div class="day-body">
+      <div class="schedule">
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">07:30</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">☕ Quick Hotel Breakfast</div>
+            <div class="note" contenteditable="true">Early start — a long day out. Saturday roads run busier, so leaving on time matters.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">—</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">Hotel</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">08:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/day6-zanbus.jpg" alt="">
+              <div>
+                <div class="activity" contenteditable="true">🚌 Zanbus from Sihui East Station</div>
+                <div class="note" contenteditable="true">The most recommended tourist service to Mutianyu (mutianyubus.com or Klook). Round-trip transport, entrance, shuttle and cable car included, with an English-speaking guide. Saturdays sell out faster than weekdays — book ahead.</div>
+              </div>
+            </div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Line 1 → Sihui East, then Zanbus</span><span class="tag-time" contenteditable="true">30 min to Sihui</span><span class="tag-cost" contenteditable="true">¥280–320pp all-incl</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">09:30</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/day6-mutianyu2.jpg" alt="">
+              <div>
+                <div class="activity" contenteditable="true">🧱 Mutianyu Great Wall 慕田峪长城</div>
+                <div class="note" contenteditable="true">Winter brings fewer crowds and snow-dusted scenery if lucky. Cable car up, then walk towers 6–20 (~2km, the most scenic stretch). Tower 14 has the best views. Children under 1.2m free. Toboggan run down (¥100 extra, weather-dependent) — the boys will love it.</div>
+              </div>
+            </div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Zanbus, included</span><span class="tag-time" contenteditable="true">1.5 hrs from Sihui</span><span class="tag-cost" contenteditable="true">Included</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">13:00</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🍖 Lunch at the Wall's foot</div>
+            <div class="note" contenteditable="true">Restaurants near the car park — local trout, braised pork, warming noodle soups.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk</span><span class="tag-time" contenteditable="true">5 min</span><span class="tag-cost" contenteditable="true">¥50–80pp</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">15:00</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🚌 Return Bus</div>
+            <div class="note" contenteditable="true">Buses also run at 16:00 and 17:00 for more time on the Wall.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Zanbus to Sihui East</span><span class="tag-time" contenteditable="true">1.5 hrs</span><span class="tag-cost" contenteditable="true">Included</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">17:30</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/hotpot.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🍽️ Dinner — Wangfujing</div>
+            <div class="note" contenteditable="true">An easy night back in the home neighbourhood — everyone will want to warm up to some hotpot, traditional Beijing local food or Peking duck if we missed it on Dec 25.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">DiDi / Walk from hotel</span><span class="tag-time" contenteditable="true">10–15 min</span><span class="tag-cost" contenteditable="true">¥80–150pp</span></div>
+          </div></div></div>
+        </div>
+      </div>
+      <div class="dining-block">
+        <h4>Dining</h4>
+        <div class="dining-cards">
+          <div class="dining-card"><div class="dn" contenteditable="true">Huairou Trout Restaurant</div><div class="dd" contenteditable="true">Local mountain trout near Mutianyu, fresh and crispy-fried whole — several options near the car park.</div><div class="dp" contenteditable="true">¥60–100pp</div></div>
+          <div class="dining-card"><div class="dn" contenteditable="true">Najia Xiaoguan 那家小馆</div><div class="dd" contenteditable="true">A beloved royal-cuisine-inspired restaurant near Wangfujing — comforting and warming after a long cold day.</div><div class="dp" contenteditable="true">¥80–150pp</div></div>
+        </div>
+      </div>
+      <div class="note-block tip" contenteditable="true">💡 <strong>Tip —</strong> wind chill at altitude can be brutal — thermal layers, gloves and hand warmers (¥5 at any convenience store) are essential. The toboggan closes if icy. Don't cut the 08:00 departure close; Saturday traffic to Huairou runs heavier than weekdays.</div>
+      <div class="note-block backup" contenteditable="true">❄️ <strong>Storm backup —</strong> Lama Temple and the nearby Confucius Temple offer stunning Tibetan Buddhist architecture and sheltered walkways. The National Art Museum of China is free and fully indoors.</div>
+    </div>
+  </div>
+
+  <!-- DAY 7 -->
+  <div class="day-entry">
+    <div class="day-stub">
+      <div class="day-stub-left">
+        <span class="day-num-label">Day</span>
+        <span class="day-num">07</span>
+        <div class="day-seal">柒</div>
+      </div>
+      <div class="day-stub-right">
+        <span class="day-date" contenteditable="true">Sun 27 Dec 2026</span>
+        <span class="day-title" contenteditable="true">Nanluogu Xiang · MR.X ESCAPE · Sanlitun Wagyu Yakiniku Buffet</span>
+      </div>
+    </div>
+    <div class="day-photo-band"><img src="pic/day7-nanluoguxiang.jpg" alt="POPLAND theme park"></div>
+    <div class="day-body">
+      <div class="schedule">
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">10:00</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🍳 Hotel Breakfast</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">—</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">Hotel</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">11:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/day7-hanfu.jpg" alt="">
+              <div>
+                <div class="activity" contenteditable="true">🏮 Nanluogu Xiang Hutong 南锣鼓巷 <span class="hanfu-chip">👘 Rentals Here</span></div>
+                <div class="note" contenteditable="true">Beijing's most hip historic hutong street — indie cafés, bubble tea, artisan snacks and vintage shops along 786m. Try rose pigeon egg candy, grilled cheese sticks, matcha soft serve. Multiple Hanfu shops line the street — rent and roam the narrow alleys for photos.</div>
+              </div>
+            </div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Line 5/8 → Beixinqiao / Nanluoguxiang</span><span class="tag-time" contenteditable="true">~15 min</span><span class="tag-cost" contenteditable="true">¥3pp subway</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">12:30</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/day7-ghoststreet.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🍱 Lunch at Ghost Street 鬼街</div>
+            <div class="note" contenteditable="true">A 1km strip of non-stop eateries, known for spicy crayfish and hotpot. Older teens will love the energy; order 不辣 (bù là) for non-spicy.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">DiDi</span><span class="tag-time" contenteditable="true">~8 min</span><span class="tag-cost" contenteditable="true">¥60–100pp</span></div>
+          </div></div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">14:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/day7-escape.jpg">
+              <div>
+                <div class="activity" contenteditable="true">🧸 Mr X Escape Room</div>
+                <div class="note" contenteditable="true">三里屯 Gong Ti Bei Lu, 13号世茂工三1-写字楼 邮政编码: 100027 工体北路13号 世茂广场购物中心2F Get ready for some thrilling adventures with real-life scenarios and NPCs! Escape rooms are a global teen favourite — this one is highly rated and has English-speaking staff. Book ahead for the 15:00 slot.</div>
+                <div class="sched-meta"><span class="tag-transport" contenteditable="true">DiDi / Line 14 → Chaoyang Park</span><span class="tag-time" contenteditable="true">~25 min</span><span class="tag-cost" contenteditable="true">¥150–230pp</span></div>
+              </div></div>
+            </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">16:30</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/day7-taikoo.jpg" alt="">
+              <div>
+                <div class="activity" contenteditable="true">🛍️ Sanlitun Taikoo Li 三里屯太古里</div>
+                <div class="note" contenteditable="true">Beijing's most cosmopolitan open-air mall — Apple, Supreme, Nike, local streetwear, beautifully lit in winter. The older teens can browse independently. Rooftop bars MIÀO and The Nest are worth a look for the adults.</div>
+              </div>
+            </div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk from Mr X</span><span class="tag-time" contenteditable="true">~5 min</span><span class="tag-cost" contenteditable="true">Free</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">19:00</div>
+          <div class="sched-main">
+            <div class="sched-with-thumb">
+              <img class="sched-thumb" src="pic/day7-wagyu.jpg" alt="">
+              <div>
+            <div class="activity" contenteditable="true">🍽️ Farewell Dinner — Youzhi Wagyu Yakiniku 又见和牛 Wudaokou Shopping Center </div>
+            <div class="note" contenteditable="true">The last proper dinner in Beijing — go somewhere memorable with wagyu yakiniku buffet. </div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk within Sanlitun / DiDi</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">¥120–200pp</span></div>
+          </div></div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">21:30</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🏨 Return Hotel · Pack Tonight</div>
+            <div class="note" contenteditable="true">Check-out tomorrow — keep passports, boarding passes and travel documents accessible.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk / Subway</span><span class="tag-time" contenteditable="true">10 min</span><span class="tag-cost" contenteditable="true">—</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="dining-block">
+        <h4>Dining</h4>
+        <div class="dining-cards">
+          <div class="dining-card"><div class="dn" contenteditable="true">Ghost Street Crayfish 鬼街小龙虾</div><div class="dd" contenteditable="true">An energetic Beijing institution — spicy/garlic crayfish, braised duck neck, Sichuan noodles.</div><div class="dp" contenteditable="true">¥60–100pp</div></div>
+          <div class="dining-card"><div class="dn" contenteditable="true">Jing-A Taproom 京A精酿</div><div class="dd" contenteditable="true">Beijing's top craft beer bar in Sanlitun — burgers, wings, local brews, a young and fun vibe.</div><div class="dp" contenteditable="true">¥100–150pp</div></div>
+          <div class="dining-card"><div class="dn" contenteditable="true">Xiao Diao Li 小吊梨汤</div><div class="dd" contenteditable="true">Traditional pear syrup drinks and courtyard cuisine — a beautiful hutong setting.</div><div class="dp" contenteditable="true">¥80–120pp</div></div>
+        </div>
+      </div>
+      <div class="note-block costume" contenteditable="true">👘 <strong>Nanluogu Xiang — best costume street for teens —</strong> the most popular and accessible rental spot in Beijing, with competitive pricing (¥80–180/hr) thanks to multiple shops. Narrow brick alleyways and vintage doorways make effortless backdrops. No advance booking needed on weekdays.</div>
+      <div class="note-block tip" contenteditable="true">💡 <strong>Why teens will love today —</strong> no temples, no ancient halls, pure trend-chasing fun. POPLAND is one of the most "in" spots with teens and young adults right now — the 16, 18 and 20yr-olds will likely recognise it instantly. Swap in 798 Art District if the group prefers galleries over toys.</div>
+      <div class="note-block backup" contenteditable="true">🌧️ <strong>Backup —</strong> 798 Art District, a former factory turned gallery district with street murals and the UCCA museum, fully indoor-friendly. Or the China Science &amp; Technology Museum, which the 12 &amp; 14yr-olds will enjoy more than art.</div>
+    </div>
+  </div>
+
+  <!-- DAY 8 -->
+  <div class="day-entry">
+    <div class="day-stub">
+      <div class="day-stub-left">
+        <span class="day-num-label">Day</span>
+        <span class="day-num">08</span>
+        <div class="day-seal">捌</div>
+      </div>
+      <div class="day-stub-right">
+        <span class="day-date" contenteditable="true">Mon 28 Dec 2026</span>
+        <span class="day-title" contenteditable="true">Departure · SQ807 16:35</span>
+      </div>
+    </div>
+    <div class="day-photo-band"><img src="pic/singapore.jpg" alt="Departure"></div>
+    <div class="day-body">
+      <div class="schedule">
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">09:00</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🍳 Last Hotel Breakfast</div>
+            <div class="note" contenteditable="true">A relaxed final morning. Store luggage at the bell desk if departing later.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">—</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">Hotel</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">10:00</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🛒 Last-Minute Shopping — Wangfujing</div>
+            <div class="note" contenteditable="true">Tong Ren Tang pharmacy for traditional medicine gifts (a century-old, trusted brand). APM Mall and Wangfujing Snack Street for one last taste of Beijing.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk from hotel</span><span class="tag-time" contenteditable="true">5 min</span><span class="tag-cost" contenteditable="true">Shopping budget</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">11:30</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🥟 Quick Farewell Lunch</div>
+            <div class="note" contenteditable="true">Jianbing, xiaolongbao, or zhajiangmian noodles for the road.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">Walk</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">¥30–60pp</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">12:30</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">🚐 Transfer to PEK Airport</div>
+            <div class="note" contenteditable="true">For 6 with bags: pre-book a DiDi XL or airport van via the hotel concierge the night before. Allow 60 min plus a buffer for December traffic — target arrival by 13:30. Check-in opens 3 hrs before the 16:35 departure.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">DiDi XL / Airport Express</span><span class="tag-time" contenteditable="true">45–60 min</span><span class="tag-cost" contenteditable="true">¥180–250 or ¥25pp</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">13:30</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">✈️ PEK T3 — Check-in, Security &amp; Duty Free</div>
+            <div class="note" contenteditable="true">Singapore Airlines counter in Terminal 3. Excellent duty-free for last-minute Moutai, Panda cookies and silk scarves. Immigration queues can run long in December.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">PEK Terminal 3</span><span class="tag-time" contenteditable="true">—</span><span class="tag-cost" contenteditable="true">Duty free budget</span></div>
+          </div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time" contenteditable="true">16:35</div>
+          <div class="sched-main">
+            <div class="activity" contenteditable="true">✈️ SQ807 Departs Beijing → Singapore</div>
+            <div class="note" contenteditable="true">Arrives Singapore 22:50. A well-deserved rest on board.</div>
+            <div class="sched-meta"><span class="tag-transport" contenteditable="true">—</span><span class="tag-time" contenteditable="true">6h 15 min</span><span class="tag-cost" contenteditable="true">—</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="note-block tip" contenteditable="true">💡 <strong>Tip —</strong> for six travellers, a pre-booked airport MPV is the most stress-free option — avoid the Airport Express with heavy bags and a large group. Leave by 12:30 at the latest; December immigration at T3 can take 45 minutes.</div>
+    </div>
+  </div>
+
+  <!-- ============ COSTUME GUIDE ============ -->
+  <div class="section-title">
+    <div class="num">— Photography —</div>
+    <h2 contenteditable="true">Costume Rental Guide</h2>
+    <div class="rule"></div>
+  </div>
+  <div class="grid-2">
+    <div class="grid-card"><span class="gc-label">Qianmen / Dashilar — Day 2</span><p contenteditable="true">Multiple shops on Dashilar hutong. Qing dynasty styles are popular; best backdrop is the Zhengyangmen Gate Tower. <strong>¥100–200/hr.</strong></p></div>
+    <div class="grid-card"><span class="gc-label">Forbidden City East Gate — Day 4</span><p contenteditable="true">Studios two minutes from Donghua Gate. Imperial court robes and concubine dresses against the palace's red walls. <strong>¥100–250/hr.</strong></p></div>
+    <div class="grid-card"><span class="gc-label">Summer Palace East Gate — Day 5</span><p contenteditable="true">The best spot of the trip — Long Corridor, frozen Kunming Lake, pavilion backdrops. Book a session ahead. <strong>¥150–300pp incl. photos.</strong></p></div>
+    <div class="grid-card"><span class="gc-label">Nanluogu Xiang — Day 7</span><p contenteditable="true">The most relaxed and spontaneous option. Brick hutong backdrops, competitive pricing, no booking needed. <strong>¥80–180/hr.</strong></p></div>
+    <div class="grid-card"><span class="gc-label">What's included</span><p contenteditable="true">Full outfit, sash, hair styling and headdress. Most shops offer an optional photographer for ¥200–400 extra — worth it for the better shots.</p></div>
+    <div class="grid-card"><span class="gc-label">Practical notes</span><p contenteditable="true">Wear simple, plain clothing underneath, and warm thermal leggings — costumes aren't winter-insulated. Bring socks for shoe changes. Allow 30 minutes to dress before the session starts.</p></div>
+  </div>
+
+  <!-- ============ BUDGET ============ -->
+  <div class="section-title">
+    <div class="num">— The Ledger —</div>
+    <h2 contenteditable="true">Estimated Budget</h2>
+    <div class="rule"></div>
+  </div>
+  <div class="ledger">
+    <div class="ledger-row"><span class="lk" contenteditable="true"><strong>Day 1</strong> — Shuiguo Hot Spring</span><span class="lv" contenteditable="true">¥1,500</span></div>
+    <div class="ledger-row"><span class="lk" contenteditable="true"><strong>Day 2</strong> — Temple of Heaven, costumes &amp; hotpot</span><span class="lv" contenteditable="true">¥1,500</span></div>
+    <div class="ledger-row"><span class="lk" contenteditable="true"><strong>Day 3</strong> — Universal Studios</span><span class="lv" contenteditable="true">¥4,200</span></div>
+    <div class="ledger-row"><span class="lk" contenteditable="true"><strong>Day 4</strong> — Forbidden City, YIN on 12 &amp; Siji Minfu</span><span class="lv" contenteditable="true">¥1,800</span></div>
+    <div class="ledger-row"><span class="lk" contenteditable="true"><strong>Day 5</strong> — Summer Palace, costumes &amp; skating</span><span class="lv" contenteditable="true">¥1,680</span></div>
+    <div class="ledger-row"><span class="lk" contenteditable="true"><strong>Day 6</strong> — Mutianyu Great Wall</span><span class="lv" contenteditable="true">¥2,280</span></div>
+    <div class="ledger-row"><span class="lk" contenteditable="true"><strong>Day 7</strong> — Nanluogu Xiang, POPLAND &amp; dinner</span><span class="lv" contenteditable="true">¥2,580</span></div>
+    <div class="ledger-row"><span class="lk" contenteditable="true"><strong>Misc.</strong> — meals, snacks, subway across 7 days</span><span class="lv" contenteditable="true">¥6,300</span></div>
+    <div class="ledger-row total"><span class="lk" contenteditable="true"><strong>Estimated total</strong> for 6 travellers</span><span class="lv" contenteditable="true">¥21,800 – ¥26,800</span></div>
+    <div class="ledger-foot" contenteditable="true">Excludes flights and hotel. ¥1 SGD ≈ 5.4 CNY — reconfirm before travel. Universal midweek may not require Express Pass, saving ¥300–700pp.</div>
+  </div>
+
+  <!-- ============ LOCAL TIPS ============ -->
+  <div class="section-title">
+    <div class="num">— Field Notes —</div>
+    <h2 contenteditable="true">Local Tips &amp; What to Avoid</h2>
+    <div class="rule"></div>
+  </div>
+  <div class="grid-2">
+    <div class="grid-card"><span class="gc-label">Scams</span><p contenteditable="true">Rickshaw tours near Tiananmen quote ¥10 but bill ¥100+. A taxi refusing the meter means walk away — DiDi shows the price upfront.</p></div>
+    <div class="grid-card"><span class="gc-label">Language</span><p contenteditable="true">The hotel concierge speaks English. Download an offline Mandarin pack for Google Translate, and ask the hotel to print key addresses in Chinese characters.</p></div>
+    <div class="grid-card"><span class="gc-label">Internet</span><p contenteditable="true">A VPN is required for Google, Instagram and WhatsApp — install before entering China. WeChat works without one for all local communication.</p></div>
+    <div class="grid-card"><span class="gc-label">Toilets</span><p contenteditable="true">Carry pocket tissues — public restrooms often don't provide paper. Squat toilets are common outside hotels and tourist sites.</p></div>
+    <div class="grid-card"><span class="gc-label">Dining with kids</span><p contenteditable="true">Say 不辣 (bù là) for "not spicy." Most tourist-area restaurants have picture menus. Haidilao lets you split the pot half-and-half (鸳鸯锅) for mixed spice tolerance.</p></div>
+    <div class="grid-card"><span class="gc-label">Cold weather gear</span><p contenteditable="true">Stock up on 暖宝宝 hand warmers at any convenience store, ¥5–10 a pack — essential at the Great Wall and Tiananmen. Bring waterproof boots with grip for icy pavements.</p></div>
+    <div class="grid-card"><span class="gc-label">Photography</span><p contenteditable="true">No shooting inside certain palace halls, and no drones over any tourist site. Phone cameras are fine everywhere outdoors.</p></div>
+    <div class="grid-card"><span class="gc-label">Subway</span><p contenteditable="true">All bags pass through an X-ray at entry — keep liquids accessible. Avoid 08:00–09:30 and 17:30–19:00 with a party of six.</p></div>
+  </div>
+
+</div>
+
+<!-- ============ CLOSING ============ -->
+<div class="closing">
+  <div class="closing-seal">福</div>
+  <h3 contenteditable="true">Safe travels, and happy wandering.</h3>
+  <p contenteditable="true">Eight days · six travellers · 21–28 December 2026 · Beijing, China. All hours, prices and policies are subject to change — reconfirm one to two weeks before departure. 👘 marks costume rental opportunities throughout.</p>
+</div>
+
+<script>
+  const toggle = document.getElementById('editToggle');
+  let editing = false;
+  function toggleEdit() {
+    editing = !editing;
+    document.querySelectorAll('[contenteditable]').forEach(el => {
+      el.setAttribute('contenteditable', editing ? 'true' : 'false');
+    });
+    toggle.classList.toggle('on', editing);
+  }
+  // start in view mode but keep elements editable-ready (attribute already true in markup for convenience authoring)
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[contenteditable]').forEach(el => el.setAttribute('contenteditable', 'false'));
+  });
+</script>
+
+</body>
+</html>
